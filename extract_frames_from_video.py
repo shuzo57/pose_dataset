@@ -13,6 +13,7 @@ script_dir = os.path.dirname(script_path)
 model_path = os.path.join(script_dir, "models", "keypoint.pt")
 TARGET_CLASS = 0
 THR_PIXEL = 30
+NOT_DETECTED_CONSECUTIVE_FRAMES = 20
 
 def get_video_paths(path):
     video_extensions = [".MP4", ".mp4", ".avi", ".mkv", ".MOV"]
@@ -45,7 +46,7 @@ def extract_frames_from_video(input, output) -> None:
         count = 0
         frame_idx = 0
         pos_curr = np.array([0, 0])
-        before_not_detected_flag = False
+        before_not_detected_count = 0
         while True:
             ret, frame = cap.read()
             if ret:
@@ -60,7 +61,7 @@ def extract_frames_from_video(input, output) -> None:
                 ]
 
                 if len(target_idxs) > 0:
-                    before_not_detected_flag = False
+                    before_not_detected_count = 0
                     idx = np.argmax(boxes.conf[target_idxs])
 
                     box_x, box_y, box_width, box_height = boxes.xywhn[idx]
@@ -74,15 +75,15 @@ def extract_frames_from_video(input, output) -> None:
                         )
                         cv2.imwrite(frame_path, frame)
                 else:
-                    if not before_not_detected_flag:
+                    if before_not_detected_count >= NOT_DETECTED_CONSECUTIVE_FRAMES:
                         frame_idx += 1
                         frame_path = os.path.join(
                             output_dir, f"{video_name}_{frame_idx}.jpg"
                         )
                         cv2.imwrite(frame_path, frame)
-                        before_not_detected_flag = True
+                        before_not_detected_count = 0
                     else:
-                        pass
+                        before_not_detected_count += 1
             else:
                 print("")
                 logging.info(f"Finished processing {video_path}: ")
