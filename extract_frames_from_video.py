@@ -30,7 +30,7 @@ def get_video_paths(path):
     return video_paths
 
 
-def extract_frames_from_video(input, output) -> None:
+def extract_frames_from_video(input, output, rotate_direction=None) -> None:
     video_paths = get_video_paths(input)
 
     model = YOLO(model_path)
@@ -52,6 +52,12 @@ def extract_frames_from_video(input, output) -> None:
             if ret:
                 count += 1
                 print(f"\r frame: {count}", end="")
+
+                if rotate_direction == "right":
+                    frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
+                elif rotate_direction == "left":
+                    frame = cv2.rotate(frame, cv2.ROTATE_90_COUNTERCLOCKWISE)
+
                 results = model(frame, verbose=False)
 
                 boxes = results[0].cpu().numpy().boxes
@@ -86,7 +92,7 @@ def extract_frames_from_video(input, output) -> None:
                         before_not_detected_count += 1
             else:
                 print("")
-                logging.info(f"Finished processing {video_path}: count={count}")
+                logging.info(f"Finished processing {video_path}: count={frame_idx}")
                 break
 
 if __name__ == "__main__":
@@ -97,5 +103,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "-o", "--output", type=str, help="Output directory", required=True
     )
+    parser.add_argument(
+        "-r",
+        "--rotate",
+        type=str,
+        choices=["right", "left", "none"],
+        default="none",
+        help="Rotation direction: 'right' for clockwise, 'left' for counterclockwise, 'none' for no rotation (default)",
+    )
     args = parser.parse_args()
-    extract_frames_from_video(args.input, args.output)
+    extract_frames_from_video(args.input, args.output, args.rotate)
