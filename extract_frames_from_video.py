@@ -86,7 +86,7 @@ def extract_frames_from_video(input, output) -> None:
                         before_not_detected_count += 1
             else:
                 print("")
-                logging.info(f"Finished processing {video_path}: ")
+                logging.info(f"Finished processing {video_path}: count={count}")
                 break
 
 if __name__ == "__main__":
