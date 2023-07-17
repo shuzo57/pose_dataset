@@ -15,8 +15,7 @@ Note: There is no requirements.txt provided. If you face any ImportError, please
 ### Convert COCO format JSON to YOLO format
 To run the conversion script, navigate to the directory containing the script and use the following command:
 
-```python3 convert_to_yolo_format.py -
-j [path_to_COCO_JSON_file] -o [output_directory]```
+```python3 convert_to_yolo_format.py -j [path_to_COCO_JSON_file] -o [output_directory]```
 
 This script will read in a COCO formatted JSON file and output YOLO formatted text files to the specified directory.
 
