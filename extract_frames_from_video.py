@@ -54,9 +54,9 @@ def extract_frames_from_video(input, output, rotate_direction=None) -> None:
                 print(f"\r frame: {count}", end="")
 
                 if rotate_direction == "right":
-                    frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
-                elif rotate_direction == "left":
                     frame = cv2.rotate(frame, cv2.ROTATE_90_COUNTERCLOCKWISE)
+                elif rotate_direction == "left":
+                    frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
 
                 results = model(frame, verbose=False)
 
