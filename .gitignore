@@ -1,3 +1,14 @@
+# Ignore Git related files
 .git
+
+# Ignore virtual environment related files
 .venv
+
+# Ignore the 'frames' directory
 frames
+
+# Ignore the 'eval_videos' directory and all files and subdirectories inside it
+eval_videos/
+
+# Ignore the 'eval_frames' directory and all files and subdirectories inside it
+eval_frames/

@@ -8,7 +8,7 @@ def get_basename(file_path):
     return os.path.splitext(os.path.basename(file_path))[0]
 
 
-def split_video(input_path, output_dir, start_time=0, end_time=None, rotate_direction="none"):
+def process_video(input_path, output_dir, start_time=0, end_time=None, rotate_direction="none"):
     video_name = get_basename(input_path)
 
     cap = cv2.VideoCapture(input_path)
@@ -21,7 +21,8 @@ def split_video(input_path, output_dir, start_time=0, end_time=None, rotate_dire
     if end_time is None:
         total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         end_time = total_frames / fps + EXTRA_TIME
-
+    
+    os.makedirs(output_dir, exist_ok=True)
     output_path = os.path.join(output_dir, f"{video_name}.mp4")
 
     fourcc = cv2.VideoWriter_fourcc("m", "p", "4", "v")
