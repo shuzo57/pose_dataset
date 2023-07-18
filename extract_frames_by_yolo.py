@@ -30,7 +30,7 @@ def get_video_paths(path):
     return video_paths
 
 
-def extract_frames_from_video(input, output, rotate_direction=None) -> None:
+def extract_frames_by_yolo(input, output, rotate_direction=None) -> None:
     video_paths = get_video_paths(input)
 
     model = YOLO(model_path)
@@ -112,4 +112,4 @@ if __name__ == "__main__":
         help="Rotation direction: 'right' for clockwise, 'left' for counterclockwise, 'none' for no rotation (default)",
     )
     args = parser.parse_args()
-    extract_frames_from_video(args.input, args.output, args.rotate)
+    extract_frames_by_yolo(args.input, args.output, args.rotate)
