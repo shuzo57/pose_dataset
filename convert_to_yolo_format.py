@@ -55,9 +55,21 @@ def convert_to_yolo_format(json_path, output_dir) -> None:
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Convert COCO format JSON to YOLO format")
-    parser.add_argument("-j", "--json_path", required=True, help="Path to COCO format JSON file")
-    parser.add_argument("-o", "--output_dir", required=True, help="Output directory for YOLO format files")
+    parser = argparse.ArgumentParser(
+        description="Convert COCO format JSON to YOLO format"
+    )
+    parser.add_argument(
+        "-j",
+        "--json_path",
+        required=True,
+        help="Path to COCO format JSON file",
+    )
+    parser.add_argument(
+        "-o",
+        "--output_dir",
+        required=True,
+        help="Output directory for YOLO format files",
+    )
     args = parser.parse_args()
 
     convert_to_yolo_format(args.json_path, args.output_dir)

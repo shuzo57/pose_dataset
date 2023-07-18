@@ -15,6 +15,7 @@ TARGET_CLASS = 0
 THR_PIXEL = 30
 NOT_DETECTED_CONSECUTIVE_FRAMES = 20
 
+
 def get_video_paths(path):
     video_extensions = [".MP4", ".mp4", ".avi", ".mkv", ".MOV"]
     video_paths = []
@@ -81,7 +82,10 @@ def extract_frames_by_yolo(input, output, rotate_direction=None) -> None:
                         )
                         cv2.imwrite(frame_path, frame)
                 else:
-                    if before_not_detected_count >= NOT_DETECTED_CONSECUTIVE_FRAMES:
+                    if (
+                        before_not_detected_count
+                        >= NOT_DETECTED_CONSECUTIVE_FRAMES
+                    ):
                         frame_idx += 1
                         frame_path = os.path.join(
                             output_dir, f"{video_name}_{frame_idx}.jpg"
@@ -92,13 +96,20 @@ def extract_frames_by_yolo(input, output, rotate_direction=None) -> None:
                         before_not_detected_count += 1
             else:
                 print("")
-                logging.info(f"Finished processing {video_path}: count={frame_idx}")
+                logging.info(
+                    f"Finished processing {video_path}: count={frame_idx}"
+                )
                 break
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-i", "--input", type=str, help="Input video path or directory", required=True
+        "-i",
+        "--input",
+        type=str,
+        help="Input video path or directory",
+        required=True,
     )
     parser.add_argument(
         "-o", "--output", type=str, help="Output directory", required=True
@@ -109,7 +120,8 @@ if __name__ == "__main__":
         type=str,
         choices=["right", "left", "none"],
         default="none",
-        help="Rotation direction: 'right' for clockwise, 'left' for counterclockwise, 'none' for no rotation (default)",
+        help="Rotation direction: 'right' for clockwise, 'left' for "
+        + "counterclockwise, 'none' for no rotation (default)",
     )
     args = parser.parse_args()
     extract_frames_by_yolo(args.input, args.output, args.rotate)

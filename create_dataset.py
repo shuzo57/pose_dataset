@@ -2,24 +2,24 @@ import os
 import argparse
 import shutil
 import random
-import yaml
-
+from ruamel.yaml import YAML
 
 random.seed(0)
 
 
 def create_config(output_dir):
+    yaml = YAML()
+    yaml.default_flow_style = False
     data = {
-        "path": output_dir,
+        "path": os.path.join("..", output_dir),
         "train": "images/train",
         "val": "images/val",
         "kpt_shape": [3, 3],
-        "flip_idx": [0, 1, 2],
-        "names": {"0": "club_wood"},
+        "names": {0: "club_wood"},
     }
 
     with open(os.path.join(output_dir, "config.yaml"), "w") as outfile:
-        yaml.dump(data, outfile, default_flow_style=False)
+        yaml.dump(data, outfile)
 
 
 def create_dataset(images_dir, labels_dir, output_dir, train_ratio) -> None:
