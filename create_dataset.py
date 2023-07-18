@@ -2,9 +2,24 @@ import os
 import argparse
 import shutil
 import random
+import yaml
 
 
 random.seed(0)
+
+
+def create_config(output_dir):
+    data = {
+        "path": output_dir,
+        "train": "images/train",
+        "val": "images/val",
+        "kpt_shape": [3, 3],
+        "flip_idx": [0, 1, 2],
+        "names": {"0": "club_wood"},
+    }
+
+    with open(os.path.join(output_dir, "config.yaml"), "w") as outfile:
+        yaml.dump(data, outfile, default_flow_style=False)
 
 
 def create_dataset(images_dir, labels_dir, output_dir, train_ratio) -> None:
@@ -48,6 +63,7 @@ def create_dataset(images_dir, labels_dir, output_dir, train_ratio) -> None:
         shutil.copy(image_path, images_val_dir)
         shutil.copy(label_path, labels_val_dir)
 
+    create_config(output_dir)
     print("Create dataset is done!")
 
 
