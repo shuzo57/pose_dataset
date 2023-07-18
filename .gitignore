@@ -7,8 +7,8 @@
 # Ignore the 'frames' directory
 frames
 
-# Ignore the 'eval_videos' directory and all files and subdirectories inside it
-eval_videos/
+# Ignore Json related files
+json
 
-# Ignore the 'eval_frames' directory and all files and subdirectories inside it
-eval_frames/
+# Ignore the 'eval' directory and all files and subdirectories inside it
+/eval*/
