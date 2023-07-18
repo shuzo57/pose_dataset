@@ -2,12 +2,13 @@ import os
 import cv2
 import argparse
 
+EXTRA_TIME = 0.5
 
 def get_basename(file_path):
     return os.path.splitext(os.path.basename(file_path))[0]
 
 
-def split_video(input_path, output_dir, start_time, end_time, rotate_direction):
+def split_video(input_path, output_dir, start_time=0, end_time=None, rotate_direction="none"):
     video_name = get_basename(input_path)
 
     cap = cv2.VideoCapture(input_path)
@@ -16,6 +17,10 @@ def split_video(input_path, output_dir, start_time, end_time, rotate_direction):
     fps = int(cap.get(cv2.CAP_PROP_FPS))
     dt = 1 / fps
     now_time = 0
+
+    if end_time is None:
+        total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        end_time = total_frames / fps + EXTRA_TIME
 
     output_path = os.path.join(output_dir, f"{video_name}.mp4")
 
@@ -54,8 +59,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Video processing script")
     parser.add_argument("-i", "--input", type=str, help="Input video path", required=True)
     parser.add_argument("-o", "--output", type=str, help="Output directory", required=True)
-    parser.add_argument("-s", "--start", type=float, help="Start time (in seconds)", required=True)
-    parser.add_argument("-e", "--end", type=float, help="End time (in seconds)", required=True)
+    parser.add_argument("-s", "--start", type=float, default=0, help="Start time (in seconds)")
+    parser.add_argument("-e", "--end", type=float, default=None, help="End time (in seconds)")
     parser.add_argument(
         "-r",
         "--rotate",
@@ -73,4 +78,4 @@ if __name__ == "__main__":
     end_time = args.end
     rotate_direction = args.rotate
 
-    process_video(input_path, output_dir, start_time, end_time, rotate_direction)
+    split_video(input_path, output_dir, start_time, end_time, rotate_direction)
