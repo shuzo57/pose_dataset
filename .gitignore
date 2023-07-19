@@ -10,5 +10,6 @@ frames
 # Ignore Json related files
 json
 
-# Ignore the 'eval' directory and all files and subdirectories inside it
+# Ignore the 'eval' and 'train directory and all files and subdirectories inside it
 /eval*/
+/train*/
