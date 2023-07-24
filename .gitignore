@@ -1,15 +1,11 @@
-# Ignore Git related files
 .git
 
-# Ignore virtual environment related files
 .venv
+.mypy_cache
+.vscode
 
-# Ignore the 'frames' directory
 frames
-
-# Ignore Json related files
 json
 
-# Ignore the 'eval' and 'train directory and all files and subdirectories inside it
 /eval*/
 /train*/

@@ -1,18 +1,13 @@
-import os
-import cv2
 import argparse
+import os
+
+import cv2
 
 EXTRA_TIME = 0.5
 
 
 def get_basename(file_path):
     return os.path.splitext(os.path.basename(file_path))[0]
-
-
-def save_frame(frame, output_dir, frame_index):
-    frame_name = f"frame_{frame_index:04d}.jpg"
-    output_path = os.path.join(output_dir, frame_name)
-    cv2.imwrite(output_path, frame)
 
 
 def extract_frames(
@@ -46,7 +41,9 @@ def extract_frames(
                 elif rotate_direction == "left":
                     frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
 
-                save_frame(frame, output_dir, frame_index)
+                frame_name = f"{video_name}_{frame_index}.jpg"
+                output_path = os.path.join(output_dir, frame_name)
+                cv2.imwrite(output_path, frame)
                 frame_index += 1
             elif end_time < now_time:
                 break
