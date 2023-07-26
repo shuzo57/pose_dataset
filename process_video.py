@@ -1,6 +1,7 @@
-import os
-import cv2
 import argparse
+import os
+
+import cv2
 
 EXTRA_TIME = 0.5
 
